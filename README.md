@@ -1,0 +1,37 @@
+# RSS-to-Printer News Digest Script
+
+- Randomly selects one news source from the FEED_SOURCES list each cycle.
+- Fetches and parses the feed using [feedparser](https://pypi.org/project/feedparser/).
+- Generates a PDF formatted for easy reading on A4 paper (with date, title, and summary) using [reportlab](https://pypi.org/project/reportlab/).
+- The printable output is strictly limited to a single A4 page per cycle.
+- Prints the PDF to the network printer specified via `PRINTER_NAME`.
+- Optionally deletes the generated PDF after printing to save disk space (controlled by `KEEP_PDF`).
+- Runs the process repeatedly every `INTERVAL_MINUTES`; all configuration is at the top of the script.
+
+## Requirements
+
+- [`lpr`](https://en.wikipedia.org/wiki/Lpr) command-line print tool (CUPS/Unix printing system)
+- Python packages:
+  - [feedparser](https://pypi.org/project/feedparser/): Python library to parse RSS and Atom feeds  
+  - [reportlab](https://pypi.org/project/reportlab/): Python library to generate PDFs from Python
+  - Install with:
+    ```
+    pip install feedparser reportlab
+    ```
+
+## Usage
+
+1. Edit `rss_to_printer.py` to set your feed sources, printer name, interval, and desired output PDF retention.
+2. Run the script:
+   ```
+   python3 rss_to_printer.py
+   ```
+3. The script will continuously fetch and print news in cycles, using PDF as print medium.
+
+## Configuration
+
+Adjust these variables at the top of `rss_to_printer.py` to suit your environment:
+- `FEED_SOURCES`: List of (name, URL) news sources to randomly select from.
+- `PRINTER_NAME`: The network printer name (from `lpstat -a` or system settings).
+- `INTERVAL_MINUTES`: Printing interval (minutes) between each news digest.
+- `KEEP_PDF`: Set to `False` to automatically delete PDFs after printing, saving disk space.
